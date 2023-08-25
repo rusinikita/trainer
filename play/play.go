@@ -256,10 +256,10 @@ func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list
 		str = " " + str
 	}
 
-	fn := itemStyle.MaxWidth(40).Render
+	fn := itemStyle.Render
 	if index == m.Index() {
 		fn = func(s ...string) string {
-			return selectedItemStyle.MaxWidth(40).Render("> " + strings.Join(s, " "))
+			return selectedItemStyle.Render("> " + strings.Join(s, " "))
 		}
 	}
 
