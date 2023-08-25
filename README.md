@@ -2,16 +2,18 @@ A set of GoLang programming challenges TUI app.
 
 ## Installation and usage
 
+Copy and paste into terminal. You should have Go installed.
+
 ### Install
 
 ```
-> go install github.com/rusinikita/trainer@latest
+go install github.com/rusinikita/trainer@latest
 ```
 
 ### Run
 
 ```
-> trainer
+trainer
 ```
 
 ## UI example
