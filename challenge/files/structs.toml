@@ -1,0 +1,63 @@
+name = "Structs"
+category = "easy"
+default_code_snippet = """
+type Employee struct {
+    AccessLevel string
+}
+
+func upgradeAccess(employee *Employee) {
+    employee = &Employee{
+        AccessLevel: "Admin",
+    }
+}
+
+func main() {
+    employee := &Employee{
+        AccessLevel: "User",
+    }
+    fmt.Println(employee.AccessLevel)
+    upgradeAccess(employee)
+    fmt.Println(employee.AccessLevel)
+}
+"""
+
+[[questions]]
+text = "Select program output"
+type = "select_answers"
+answers = [
+    { text = "User\nAdmin" },
+    { text = "Admin\nUser" },
+    { text = "User\nUser", code_line_ranges = [] },
+    { text = "Admin\nAdmin" }
+]
+
+[[questions]]
+text = "What data type is pointer?"
+type = "select_answers"
+answers = [
+    { text = "System type" },
+    { text = "string memory address hash" },
+    { text = "int memory address", code_line_ranges = [] },
+    { text = "struct with memory address field" },
+]
+
+[[questions]]
+text = "Find code problems. Select code line and one problem below."
+type = "select_answers"
+answers = [
+    { text = "Pointer func argument is unmodifiable" },
+    { text = "New structure istead of field change", code_line_ranges = [[4, 7]] },
+    { text = "Employee is immutable struct" },
+    { text = "Not a pointer" },
+    { text = "Pointer copy changed", code_line_ranges = [[4, 7]] },
+]
+
+[[questions]]
+text = "Select code line and how to fix it"
+type = "select_answers"
+answers = [
+    { text = "Impossible to fix" },
+    { text = "*employee = Employee{", code_line_ranges = [[5]] },
+    { text = "employee := Employee{" },
+    { text = "employee.AccessLevel = \"Admin\"", code_line_ranges = [[5]] },
+]

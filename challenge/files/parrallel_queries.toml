@@ -1,0 +1,61 @@
+name = "Parallel queries"
+category = "concurrency"
+default_code_snippet = """
+func callSomething(caller string) string {
+	seconds := 1
+
+	time.Sleep(time.Duration(seconds) * time.Second)
+
+	return fmt.Sprintf("%s: %d", caller, seconds)
+}
+
+func main() {
+	start := time.Now()
+	var callResults []any
+
+	var wg sync.WaitGroup
+	wg.Add(2)
+	go func() {
+		callResults = append(callResults, callSomething("first"))
+	}()
+
+	go func() {
+		callResults = append(callResults, callSomething("second"))
+	}()
+
+	wg.Wait()
+
+	fmt.Println("finished", int(time.Since(start)/time.Millisecond))
+	fmt.Println(callResults...)
+}
+"""
+
+[[questions]]
+text = "Select program output"
+type = "select_answers"
+answers = [
+    { text = "finished 1001\nfirst: 1 second: 1" },
+    { text = "finished 1001\nsecond: 1" },
+    { text = "finished 1001" },
+    { text = "all goroutines are asleep - deadlock!", code_line_ranges = [] },
+]
+
+[[questions]]
+text = "Find all problems. Select code line and problem below."
+type = "select_answers"
+answers = [
+    { text = "Incorrect sintax" },
+    { text = "Race condition", code_line_ranges = [[10], [15], [19]] },
+    { text = "WaitGroup unnotified", code_line_ranges = [[15], [19]] },
+    { text = "Must be .Slep, not .Wait" },
+]
+
+[[questions]]
+text = "How to fix problems"
+type = "select_answers"
+answers = [
+    { text = "Rewrite all" },
+    { text = "wg.Done", code_line_ranges = [] },
+    { text = "Mutex/RWMutex", code_line_ranges = [] },
+    { text = "Call fmt.Println inside goroutine" },
+]
