@@ -36,9 +36,9 @@ text = "What data type is pointer?"
 type = "select_answers"
 answers = [
     { text = "System type" },
-    { text = "string memory address hash" },
-    { text = "int memory address", code_line_ranges = [] },
-    { text = "struct with memory address field" },
+    { text = "String memory address hash" },
+    { text = "Number memory address hex", code_line_ranges = [] },
+    { text = "Struct with memory address field" },
 ]
 
 [[questions]]

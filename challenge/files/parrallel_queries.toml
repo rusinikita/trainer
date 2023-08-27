@@ -16,11 +16,13 @@ func main() {
 	var wg sync.WaitGroup
 	wg.Add(2)
 	go func() {
-		callResults = append(callResults, callSomething("first"))
+	    firstResult := callSomething("first")
+		callResults = append(callResults, firstResult)
 	}()
 
 	go func() {
-		callResults = append(callResults, callSomething("second"))
+		secondResult := callSomething("second")
+		callResults = append(callResults, secondResult)
 	}()
 
 	wg.Wait()

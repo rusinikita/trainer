@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"time"
 
+	"github.com/atotto/clipboard"
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -26,7 +28,7 @@ type model struct {
 	isErrorChoice   bool
 }
 
-func New(c challenge.Challenge, width, height int) tea.Model {
+func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 	// normalize line endings
 	codeLines := lines(c.DefaultCodeSnippet)
 
@@ -41,7 +43,20 @@ func New(c challenge.Challenge, width, height int) tea.Model {
 	l.AdditionalShortHelpKeys = func() []key.Binding {
 		return newBindings().ShortHelp()
 	}
+	l.AdditionalFullHelpKeys = func() []key.Binding {
+		return newBindings().FullHelp()[0]
+	}
 	l.Styles.HelpStyle = l.Styles.HelpStyle.MarginBottom(1)
+	l.StatusMessageLifetime = 5 * time.Second
+
+	copyStatus := "Code is copied to clipboard"
+
+	err := clipboard.WriteAll(c.DefaultCodeSnippet)
+	if err != nil {
+		copyStatus = errorStyle.Render("Code isn't copied. Please install xsel, xclip, wl-clipboard or Termux:API.")
+	}
+
+	cmd := l.NewStatusMessage(copyStatus)
 
 	m := model{
 		b: newBindings(),
@@ -54,7 +69,7 @@ func New(c challenge.Challenge, width, height int) tea.Model {
 		foundAnswers: map[int]bool{},
 	}
 
-	return m.updateListSize()
+	return m.updateListSize(), cmd
 }
 
 func (m model) Init() tea.Cmd {
@@ -97,9 +112,9 @@ func (m model) footerView() string {
 	questionStr := fmt.Sprintf("Question %d: %s", m.currentQuestion, m.question().Text)
 
 	if m.allQuestionsAnswered() {
-		questionStr += "\n\nChallenge completed, press ESC to exit"
+		questionStr += "\n\nChallenge completed, press 'ESC' or 'q' to exit"
 	} else if m.questionFullyAnswered() {
-		questionStr += "\n\nAll answers found, press N to next question"
+		questionStr += "\n\nAll answers found, press 'N' to show next question"
 	}
 
 	var answers []string
@@ -227,7 +242,7 @@ func (k keyBindings) ShortHelp() []key.Binding {
 }
 
 func (k keyBindings) FullHelp() [][]key.Binding {
-	return nil
+	return [][]key.Binding{{k.Left, k.Right, k.Input}}
 }
 
 func newBindings() keyBindings {
@@ -289,6 +304,7 @@ var (
 				Foreground(lipgloss.Color("70")).
 				BorderStyle(lipgloss.DoubleBorder()).
 				BorderForeground(lipgloss.Color("170"))
+	errorStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("196"))
 )
 
 var (
