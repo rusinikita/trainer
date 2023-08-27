@@ -1,0 +1,70 @@
+name = "Tutorial"
+category = "easy"
+default_code_snippet = """
+type Cat struct {
+    color string
+}
+
+func (c Cat) changeColor() {
+  c.color = "pink"
+}
+
+func main() {
+    funCat := Cat{"black"}
+    funCat.changeColor()
+    fmt.Println(funCat)
+}
+"""
+
+[[questions]]
+text = """You can see a challenge code above.
+You can resize terminal. App adapt to window size.
+Note: Code has copied to clipboard, you can paste it to somewhere."""
+type = "select_answers"
+answers = [
+    { text = "Press '⮐ enter' and then 'N'", code_line_ranges = [] },
+]
+
+[[questions]]
+text = """Look at the code above and select program output.
+Use ←→ to select answer and press '⮐ enter'."""
+type = "select_answers"
+answers = [
+    { text = "pink" },
+    { text = "{pink}" },
+    { text = "{black}", code_line_ranges = [] },
+    { text = "black" },
+]
+
+[[questions]]
+text = """Why has color not changed?
+Select an answer and a problem code line using arrows and '⮐ '.
+Any related to answer line is good."""
+type = "select_answers"
+answers = [
+    { text = "Private field" },
+    { text = "Private method" },
+    { text = "Constant value" },
+    { text = "Value receiver method", code_line_ranges = [[4, 6], [10]] },
+]
+
+[[questions]]
+text = """How to fix programm to print 'pink' (without {})?
+There is a 2 right answers. Each answer has its related line (not the same)."""
+type = "select_answers"
+answers = [
+    { text = "Pointer receiver *Cat", code_line_ranges = [[4]] },
+    { text = "Pass funCat.color field", code_line_ranges = [[11]] },
+    { text = 'Just fmt.Println("pink")' },
+    { text = 'Make funCat.color = "pink"' },
+]
+
+[[questions]]
+text = """Nice job! Last step: just check all answers."""
+type = "select_answers"
+answers = [
+    { text = "I will 'Star' project on Github", code_line_ranges = [] },
+    { text = "I will create second account to 'Star' project", code_line_ranges = [] },
+    { text = "I will ask friends and colleagues to 'Star' project", code_line_ranges = [] },
+    { text = "I understang it's joke", code_line_ranges = [] },
+]
