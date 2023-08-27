@@ -107,19 +107,21 @@ func (m model) headerView() string {
 }
 
 func (m model) footerView() string {
-	line := strings.Repeat("─", m.l.Width())
+	question := m.question()
 
-	questionStr := fmt.Sprintf("Question %d: %s", m.currentQuestion, m.question().Text)
+	number := questionNumberStyle.Render(
+		fmt.Sprintf("Question %d/%d", m.currentQuestion+1, len(m.questions)),
+	)
 
-	if m.allQuestionsAnswered() {
-		questionStr += "\n\nChallenge completed, press 'ESC' or 'q' to exit"
-	} else if m.questionFullyAnswered() {
-		questionStr += "\n\nAll answers found, press 'N' to show next question"
-	}
+	line := lipgloss.JoinHorizontal(
+		lipgloss.Center,
+		number,
+		strings.Repeat("─", m.l.Width()-lipgloss.Width(number)),
+	)
 
 	var answers []string
 
-	for i, answer := range m.question().Answers {
+	for i, answer := range question.Answers {
 		style := answerStyle
 
 		foundAnswer := m.foundAnswers[i]
@@ -145,7 +147,8 @@ func (m model) footerView() string {
 
 	return lipgloss.JoinVertical(lipgloss.Left,
 		line,
-		titleStyle.Render(questionStr),
+		titleStyle.Render(question.Text),
+		m.questionStatusLine(),
 		lipgloss.JoinHorizontal(lipgloss.Left, answers...),
 	)
 }
@@ -210,6 +213,35 @@ func (m model) View() string {
 		listStyle.Render(m.l.View()),
 		m.footerView(),
 		m.helpView(),
+	)
+}
+
+func (m model) questionStatusLine() string {
+	if m.allQuestionsAnswered() {
+		return questionEndStyle.Render("Challenge has completed, press 'ESC' or 'q' to exit")
+	} else if m.questionFullyAnswered() {
+		return questionEndStyle.Render("All answers has found, press 'N' to show next question")
+	}
+
+	rightAnswers, hasLines := m.question().RightAnswers()
+	if rightAnswers == 0 {
+		return ""
+	}
+
+	countTag := "one answer"
+	if rightAnswers > 1 {
+		countTag = "few answers"
+	}
+
+	linesTag := "with any line"
+	if hasLines {
+		linesTag = "with related line selected"
+	}
+
+	return lipgloss.JoinHorizontal(
+		lipgloss.Left,
+		questionTagStyle.Render(countTag),
+		questionTagStyle.Render(linesTag),
 	)
 }
 
@@ -282,8 +314,9 @@ func (d itemDelegate) Render(w io.Writer, m list.Model, index int, listItem list
 }
 
 var (
-	titleStyle = lipgloss.NewStyle().BorderStyle(lipgloss.HiddenBorder())
-	answerF    = func() lipgloss.Style {
+	questionNumberStyle = lipgloss.NewStyle().BorderStyle(lipgloss.RoundedBorder()).Padding(0, 1)
+	titleStyle          = lipgloss.NewStyle().Margin(1)
+	answerF             = func() lipgloss.Style {
 		return lipgloss.NewStyle().
 			PaddingLeft(1).PaddingRight(1).
 			BorderStyle(lipgloss.NormalBorder())
@@ -304,7 +337,9 @@ var (
 				Foreground(lipgloss.Color("70")).
 				BorderStyle(lipgloss.DoubleBorder()).
 				BorderForeground(lipgloss.Color("170"))
-	errorStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("196"))
+	errorStyle       = lipgloss.NewStyle().Foreground(lipgloss.Color("196"))
+	questionTagStyle = lipgloss.NewStyle().Padding(0, 1).Margin(1).Background(lipgloss.Color("62"))
+	questionEndStyle = lipgloss.NewStyle().Margin(1).Foreground(lipgloss.Color("34"))
 )
 
 var (

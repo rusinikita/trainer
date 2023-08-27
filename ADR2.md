@@ -4,7 +4,7 @@
 - -Not obvious, that there is few answers and answer has not only one right code line
 
 ## Changes
-1. [ ] Show task instructions
+1. [x] Show task instructions
    - Show "one answer" or "few|0/2 answers" tag
    - Show "with any line" or "with related lines"
 2. [x] Add tutorial challenge (with just syntax errors)

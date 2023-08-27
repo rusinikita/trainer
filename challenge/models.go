@@ -34,6 +34,22 @@ type Question struct {
 	Answers []Answer     `toml:"answers" validate:"required,dive"`
 }
 
+func (q Question) RightAnswers() (count int, hasLines bool) {
+	for _, answer := range q.Answers {
+		if answer.CodeLineRanges == nil {
+			continue
+		}
+
+		count++
+
+		if len(answer.CodeLineRanges) > 0 {
+			hasLines = true
+		}
+	}
+
+	return count, hasLines
+}
+
 type Answer struct {
 	Name           string     `toml:"name"`
 	Text           string     `toml:"text" validate:"required"`

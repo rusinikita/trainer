@@ -42,7 +42,7 @@ answers = [
 ]
 
 [[questions]]
-text = "Find code problems. Select code line and one problem below."
+text = "Point at problems in code"
 type = "select_answers"
 answers = [
     { text = "Pointer func argument is unmodifiable" },
@@ -53,7 +53,7 @@ answers = [
 ]
 
 [[questions]]
-text = "Select code line and how to fix it"
+text = "Select possible fixes"
 type = "select_answers"
 answers = [
     { text = "Impossible to fix" },

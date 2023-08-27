@@ -43,7 +43,7 @@ answers = [
 ]
 
 [[questions]]
-text = "Find all problems. Select code line and problem below."
+text = "Point at problems in code"
 type = "select_answers"
 answers = [
     { text = "Incorrect sintax" },
@@ -53,7 +53,7 @@ answers = [
 ]
 
 [[questions]]
-text = "How to fix problems"
+text = "How to fix these problems?"
 type = "select_answers"
 answers = [
     { text = "Rewrite all" },
