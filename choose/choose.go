@@ -21,6 +21,7 @@ type choose struct {
 func New() tea.Model {
 	listModel := list.New(nil, itemDelegate{}, 20, 14)
 	listModel.SetFilteringEnabled(false)
+	listModel.SetShowStatusBar(false)
 	listModel.Title = "Select challenge"
 
 	return choose{

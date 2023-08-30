@@ -1,4 +1,14 @@
-A set of GoLang programming challenges TUI app.
+Golang interview questions and quiz terminal app.
+
+Why:
+- Interview simulation
+- Fun
+
+Features:
+- No code highlight (yes, it's a feature)
+- Guess program output
+- Find problems in code and choose solutions
+- Copy and fix code
 
 [![asciicast](https://asciinema.org/a/605076.svg)](https://asciinema.org/a/605076)
 

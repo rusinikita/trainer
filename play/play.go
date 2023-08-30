@@ -107,6 +107,10 @@ func (m model) headerView() string {
 }
 
 func (m model) footerView() string {
+	if m.w.Height < 25 {
+		return errorStyle.Render("Can't show question. Please, increase terminal window height")
+	}
+
 	question := m.question()
 
 	number := questionNumberStyle.Render(
@@ -150,6 +154,7 @@ func (m model) footerView() string {
 		titleStyle.Render(question.Text),
 		m.questionStatusLine(),
 		lipgloss.JoinHorizontal(lipgloss.Left, answers...),
+		m.helpView(),
 	)
 }
 
@@ -178,7 +183,7 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 			m.currentAnswer = min(len(m.question().Answers)-1, m.currentAnswer+1)
 
 		case key.Matches(msg, m.b.Input):
-			isRight := m.answer().IsRight(m.l.Cursor())
+			isRight := m.answer().IsRight(m.l.Index())
 
 			m.isErrorChoice = !isRight
 			if isRight {
@@ -197,10 +202,9 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 
 func (m model) updateListSize() model {
 	footerHeight := lipgloss.Height(m.footerView())
-	helpHeight := lipgloss.Height(m.helpView())
 	listMargin := listStyle.GetVerticalFrameSize()
 
-	verticalMarginHeight := footerHeight + listMargin + helpHeight
+	verticalMarginHeight := footerHeight + listMargin
 
 	m.l.SetSize(m.w.Width-listStyle.GetHorizontalFrameSize(), m.w.Height-verticalMarginHeight)
 
@@ -212,7 +216,6 @@ func (m model) View() string {
 		lipgloss.Left,
 		listStyle.Render(m.l.View()),
 		m.footerView(),
-		m.helpView(),
 	)
 }
 
@@ -337,7 +340,7 @@ var (
 				Foreground(lipgloss.Color("70")).
 				BorderStyle(lipgloss.DoubleBorder()).
 				BorderForeground(lipgloss.Color("170"))
-	errorStyle       = lipgloss.NewStyle().Foreground(lipgloss.Color("196"))
+	errorStyle       = lipgloss.NewStyle().Foreground(lipgloss.Color("196")).Margin(1)
 	questionTagStyle = lipgloss.NewStyle().Padding(0, 1).Margin(1).Background(lipgloss.Color("62"))
 	questionEndStyle = lipgloss.NewStyle().Margin(1).Foreground(lipgloss.Color("34"))
 )

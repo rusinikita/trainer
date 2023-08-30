@@ -26,6 +26,13 @@ answers = [
 ]
 
 [[questions]]
+text = """Code has copied to clipboard, you can paste it to somewhere."""
+type = "select_answers"
+answers = [
+    { text = "Press '⮐ enter' and then 'N'", code_line_ranges = [] },
+]
+
+[[questions]]
 text = """Look at the code above and select program output.
 Use ←→ to select answer and press '⮐ enter'."""
 type = "select_answers"
@@ -37,7 +44,17 @@ answers = [
 ]
 
 [[questions]]
-text = """Why has color not changed?
+text = """Some questions require to select related line of code.
+Select an answer and a code line using arrows and '⮐ '."""
+type = "select_answers"
+answers = [
+    { text = "Answer for line 4 or 10", code_line_ranges = [[4, 6], [10]] },
+    { text = "Answer for line 4 or 10", code_line_ranges = [[4, 6], [10]] },
+    { text = "Answer for line 11", code_line_ranges = [[11]] },
+]
+
+[[questions]]
+text = """Look at code. Why has color not changed?
 Select an answer and a problem code line using arrows and '⮐ '.
 Any related to answer line is good."""
 type = "select_answers"

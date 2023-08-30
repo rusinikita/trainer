@@ -3,7 +3,7 @@
 - +Tasks creates watchfulness
 - -Not obvious, that there is few answers and answer has not only one right code line
 
-## Changes
+### Changes
 1. [x] Show task instructions
    - Show "one answer" or "few|0/2 answers" tag
    - Show "with any line" or "with related lines"
@@ -11,7 +11,19 @@
 3. [x] ~~Add copy to clipboard button~~ Add auto copy on challenge start
 4. Add learning materials links button [go install golang.org/x/website/tour@latest | go doc sync.RWMutex | go doc sync.WaitGroup | https://www.educative.io/answers/what-are-pointers-in-golang | https://neilalexander.dev/2021/08/29/go-pass-by-value]
 
-## Future idea
+## Feedback 2
+
+- Low terminal height -> "I don't know that to do"
+- "Do you understand that code has copied?" -> No
+- "I can't select question", I don't understand "Select an answer and a problem code line using arrows and '⮐ '" -> different step in tutorial
+
+### Changes
+
+1. [x] Low height error
+2. [x] Code copy question in tutorial
+3. [x] Fix code selection bug. Add tutorial step
+
+### Future idea
 
 - Optimization quizz
 
