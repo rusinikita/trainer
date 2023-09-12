@@ -169,12 +169,10 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 		switch {
 
 		case key.Matches(msg, m.b.Next):
-			if m.questionFullyAnswered() {
-				if m.currentQuestion < len(m.questions)-1 {
-					m.currentQuestion++
-					m.currentAnswer = 0
-					m.foundAnswers = map[int]bool{}
-				}
+			if m.questionFullyAnswered() && (m.currentQuestion < len(m.questions)-1) {
+				m.currentQuestion++
+				m.currentAnswer = 0
+				m.foundAnswers = map[int]bool{}
 			}
 
 		case key.Matches(msg, m.b.Left):
