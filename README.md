@@ -27,3 +27,7 @@ go install github.com/rusinikita/trainer@latest
 ```
 trainer
 ```
+
+### Thanks
+
+Some questions inspired by [this quiz](https://github.com/smallnest/go-concurrent-quiz)

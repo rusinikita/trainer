@@ -1,0 +1,58 @@
+name = "RWMutex"
+category = "concurrency"
+default_code_snippet = """
+var mu sync.RWMutex
+var count int
+
+func main() {
+	go A()
+	time.Sleep(time.Millisecond)
+	mu.Lock()
+	defer mu.Unlock()
+	count++
+	fmt.Println(count)
+}
+
+func A() {
+	mu.RLock()
+	defer mu.RUnlock()
+	B()
+}
+
+func B() {
+	time.Sleep(5 * time.Second)
+	C()
+}
+
+func C() {
+	mu.RLock()
+	defer mu.RUnlock()
+}
+"""
+
+[[questions]]
+text = "Select program output"
+type = "select_answers"
+answers = [
+    { text = "can't compile" },
+    { text = "1" },
+    { text = "no answer" },
+    { text = "deadlock!", code_line_ranges = [] },
+]
+
+[[questions]]
+text = "Select line causes deadlock."
+type = "select_answers"
+answers = [
+    { text = "Program stops here", code_line_ranges = [[6]] },
+]
+
+[[questions]]
+text = "One deleted line can fix program. Which one?"
+type = "select_answers"
+answers = [
+    { text = 'This line in main()', code_line_ranges = [[5]] },
+    { text = 'This line in A()' },
+    { text = 'This line in B()', code_line_ranges = [[19]] },
+    { text = 'This line in C()' },
+]

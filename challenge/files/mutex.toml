@@ -1,0 +1,73 @@
+name = "Mutex"
+category = "concurrency"
+default_code_snippet = """
+var mu sync.Mutex
+var chain string
+
+func main() {
+	chain = "main"
+	A()
+	fmt.Println(chain)
+}
+
+func A() {
+	mu.Lock()
+	defer mu.Unlock()
+	chain = chain + " --> A"
+	B()
+}
+
+func B() {
+	chain = chain + " --> B"
+	C()
+}
+
+func C() {
+	mu.Lock()
+	defer mu.Unlock()
+	chain = chain + " --> C"
+}
+"""
+
+[[questions]]
+text = "Select program output"
+type = "select_answers"
+answers = [
+    { text = "can't compile" },
+    { text = "main --> A --> B --> C" },
+    { text = "main" },
+    { text = "deadlock!", code_line_ranges = [] },
+]
+
+[[questions]]
+text = "Select line causes deadlock"
+type = "select_answers"
+answers = [
+    { text = "Program stops here", code_line_ranges = [[22]] },
+]
+
+[[questions]]
+text = "How to change lines 11-13 to fix deadlock? Two answers"
+type = "select_answers"
+answers = [
+    { text = '''
+defer mu.Unlock()
+chain = chain + " --> A"
+B()
+    ''' },
+    { text = '''
+chain = chain + " --> A"
+defer mu.Unlock()
+B()
+    ''' },
+    { text = '''
+chain = chain + " --> A"
+mu.Unlock()
+B()
+    ''', code_line_ranges = []  },
+    { text = '''
+defer B()
+defer mu.Unlock()
+chain = chain + " --> A"
+    ''', code_line_ranges = []  },
+]
