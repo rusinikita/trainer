@@ -1,0 +1,36 @@
+name = "Mutex 2"
+category = "concurrency"
+default_code_snippet = """
+type Map struct {
+	m map[int]int
+	sync.Mutex
+}
+
+func (m *Map) Get(key int) (value int, found bool) {
+	m.Lock()
+	defer m.Unlock()
+
+	i, ok := m.m[key]
+	return i, found
+}
+
+func (m *Map) Put(key, value int) {
+	m.Lock()
+	defer m.Unlock()
+	m.m[key] = value
+}
+
+func (m *Map) Len() int {
+	return len(m.m)
+}
+"""
+
+[[questions]]
+text = "This structure is used in other packages. Find issues."
+type = "select_answers"
+answers = [
+    { text = "can't compile" },
+    { text = "data race", code_line_ranges = [[19, 21]] },
+    { text = "nil pointer exception", code_line_ranges = [[1, 16]] },
+    { text = "wrong variable", code_line_ranges = [[10]] },
+]
