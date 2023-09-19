@@ -16,10 +16,10 @@ Features:
 
 Copy and paste into terminal. You should have Go installed.
 
-### Install
+### Install or update
 
 ```
-go install github.com/rusinikita/trainer@latest
+go install github.com/rusinikita/trainer@v0.4.0
 ```
 
 ### Run
@@ -28,6 +28,10 @@ go install github.com/rusinikita/trainer@latest
 trainer
 ```
 
-### Thanks
+### Tutorial
+
+Please, select tutorial as first challenge
+
+## Thanks
 
 Some questions inspired by [this quiz](https://github.com/smallnest/go-concurrent-quiz)
