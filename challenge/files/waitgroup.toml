@@ -1,0 +1,41 @@
+name = "WaitGroup"
+category = "concurrency"
+default_code_snippet = """
+func main() {
+    fmt.Println("Start")
+	var wg sync.WaitGroup
+	wg.Add(1)
+	go func() {
+		time.Sleep(time.Millisecond)
+		wg.Done()
+		wg.Add(1)
+	}()
+	wg.Wait()
+	fmt.Println("Done")
+}
+"""
+
+[[questions]]
+text = "Select program output"
+type = "select_answers"
+answers = [
+    { text = "Start" },
+    { text = "Start\nDone" },
+    { text = "Start\npanic: sync", code_line_ranges = [] },
+    { text = "deadlock!" },
+]
+
+[[questions]]
+text = "Select line when program crashes"
+type = "select_answers"
+answers = [
+    { text = "Program throws panic here", code_line_ranges = [[9]] },
+]
+
+[[questions]]
+text = "Select line to fix"
+type = "select_answers"
+answers = [
+    { text = "Fix it" },
+    { text = "Delete it", code_line_ranges = [[7]] },
+]

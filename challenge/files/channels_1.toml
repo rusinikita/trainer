@@ -1,0 +1,50 @@
+name = "Channels 1"
+category = "concurrency"
+default_code_snippet = """
+func main() {
+	var ch chan int
+	go func() {
+		ch = make(chan int, 1)
+		ch <- 1
+	}()
+
+	go func(ch chan int) {
+		time.Sleep(time.Second)
+		<-ch
+	}(ch)
+
+	c := time.Tick(1 * time.Second)
+	for range c {
+		fmt.Printf("#goroutines: %d\n", runtime.NumGoroutine())
+	}
+}
+"""
+
+[[questions]]
+text = "Select program output"
+type = "select_answers"
+answers = [
+    { text = '#goroutines: 1" every second' },
+    { text = '#goroutines: 2" every second', code_line_ranges = [] },
+    { text = '#goroutines: 3" every second' },
+    { text = "deadlock!" },
+]
+
+[[questions]]
+text = "Select goroutine code and its state after few seconds"
+type = "select_answers"
+answers = [
+    { text = "Goroutine finished", code_line_ranges = [[2,5]] },
+    { text = "Goroutine is waiting", code_line_ranges = [[7,10]] },
+    { text = "Goroutine is executing" },
+]
+
+[[questions]]
+text = "Select ways to finish goroutine that waits"
+type = "select_answers"
+answers = [
+    { text = "Remove this line" },
+    { text = "Move this line avove `go func()`", code_line_ranges = [[3]] },
+    { text = "Add `time.Sleep(...)` above" },
+    { text = "Remove `ch` function argument", code_line_ranges = [[7,10]] },
+]

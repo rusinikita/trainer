@@ -1,19 +1,20 @@
 package main
 
-import (
-	"fmt"
-	"os"
-
-	tea "github.com/charmbracelet/bubbletea"
-
-	"github.com/rusinikita/trainer/choose"
-)
+import "fmt"
 
 func main() {
-	p := tea.NewProgram(choose.New())
+	ch := make(chan int)
+	var count int
 
-	if _, err := p.Run(); err != nil {
-		fmt.Printf("Alas, there's been an error: %v", err)
-		os.Exit(1)
-	}
+	go func() {
+		ch <- 1
+	}()
+
+	go func() {
+		count++
+	}()
+
+	<-ch
+
+	fmt.Println(count)
 }

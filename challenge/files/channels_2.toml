@@ -1,0 +1,85 @@
+name = "Channels (easy)"
+category = "concurrency"
+default_code_snippet = """
+func main() {
+	var ch chan int
+	var count int
+
+	go func() {
+		ch <- 1
+	}()
+
+	go func() {
+		count++
+		close(ch)
+	}()
+
+	<-ch
+
+	fmt.Println(count)
+}
+"""
+
+[[questions]]
+text = "Select program output"
+type = "select_answers"
+answers = [
+    { text = '1' },
+    { text = '0' },
+    { text = "panic: ...deadlock!" },
+    { text = 'panic: ...nil', code_line_ranges = [] },
+]
+
+[[questions]]
+text = "Select line causes panic"
+type = "select_answers"
+answers = [
+    { text = "Program panics here", code_line_ranges = [[10]] },
+]
+
+[[questions]]
+text = "Select program output if `close(ch)` deleted"
+type = "select_answers"
+answers = [
+    { text = '1' },
+    { text = '0' },
+    { text = "panic: ...deadlock!", code_line_ranges = [] },
+    { text = 'panic: ...nil' },
+]
+
+[[questions]]
+text = "Select problem lines. Where and why deadlock happens if `close(ch)` deleted?"
+type = "select_answers"
+answers = [
+    { text = "Program stops here", code_line_ranges = [[13]] },
+    { text = "Because of problem here", code_line_ranges = [[1]] },
+]
+
+[[questions]]
+text = "Select all problems in code"
+type = "select_answers"
+answers = [
+    { text = "Not initialized channel", code_line_ranges = [[2]] },
+    { text = "Closing before read or init", code_line_ranges = [[10]] },
+    { text = "Data race", code_line_ranges = [[9, 15]] },
+    { text = "It's horrible", code_line_ranges = [] },
+]
+
+[[questions]]
+text = "How to make program output `1`?"
+type = "select_answers"
+answers = [
+    { text = "Delete this line", code_line_ranges = [[10]] },
+    { text = "Rewrite with `:= make(...)`", code_line_ranges = [[2]] },
+    { text = "Add `time.Sleep(...)` above", code_line_ranges = [[13, 15]] },
+]
+
+[[questions]]
+text = "What can be used to ensure `count++` called before Pringln?"
+type = "select_answers"
+answers = [
+    { text = "Mutex", code_line_ranges = [] },
+    { text = "sync.Map" },
+    { text = "WaitGroup", code_line_ranges = [] },
+    { text = "defer" },
+]
