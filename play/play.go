@@ -341,7 +341,7 @@ var (
 				BorderStyle(lipgloss.DoubleBorder()).
 				BorderForeground(lipgloss.Color("170"))
 	errorStyle       = lipgloss.NewStyle().Foreground(lipgloss.Color("196")).Margin(1)
-	questionTagStyle = lipgloss.NewStyle().Padding(0, 1).Margin(1).Background(lipgloss.Color("62"))
+	questionTagStyle = lipgloss.NewStyle().Padding(0, 1).Margin(1).Background(lipgloss.Color("62")).Foreground(lipgloss.Color("230"))
 	questionEndStyle = lipgloss.NewStyle().Margin(1).Foreground(lipgloss.Color("34"))
 )
 
