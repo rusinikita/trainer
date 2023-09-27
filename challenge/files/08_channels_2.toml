@@ -1,4 +1,4 @@
-name = "Channels (easy)"
+name = "Channels 2"
 category = "concurrency"
 default_code_snippet = """
 func main() {
