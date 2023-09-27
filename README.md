@@ -19,7 +19,7 @@ Copy and paste into terminal. You should have Go installed.
 ### Install or update
 
 ```
-go install github.com/rusinikita/trainer@v0.4.0
+go install github.com/rusinikita/trainer@v0.4.1
 ```
 
 ### Run
