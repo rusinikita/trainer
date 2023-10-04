@@ -28,6 +28,7 @@ func C() {
 	chain = chain + " --> C"
 }
 """
+learning_advise = "Read sync.Mutex docs and play with this code"
 
 [[questions]]
 text = "Select program output"

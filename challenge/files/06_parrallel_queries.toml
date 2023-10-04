@@ -31,6 +31,7 @@ func main() {
 	fmt.Println(callResults...)
 }
 """
+learning_advise = "Read sync.WaitGroup, sync.Mutex docs and play with this code"
 
 [[questions]]
 text = "Select program output"

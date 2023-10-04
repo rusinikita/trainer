@@ -26,6 +26,8 @@ type Challenge struct {
 	Category           TaskCategory `toml:"category" validate:"required,oneof=beginner easy concurrency performance wtf"`
 	DefaultCodeSnippet string       `toml:"default_code_snippet" validate:"required"`
 	Questions          []Question   `toml:"questions" validate:"required,dive"`
+	LearningAdvise     string       `toml:"learning_advise" validate:"required"`
+	LearningLinks      []Link       `toml:"learning_links" validate:"dive"`
 }
 
 type Question struct {
@@ -121,4 +123,9 @@ func validateLineRanges(fl validator.FieldLevel) bool {
 	}
 
 	return ranges.validate()
+}
+
+type Link struct {
+	Title string `toml:"title" validate:"required"`
+	URL   string `toml:"url" validate:"required"`
 }

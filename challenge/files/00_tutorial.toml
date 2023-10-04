@@ -15,6 +15,19 @@ func main() {
     fmt.Println(funCat)
 }
 """
+learning_advise = "You need to be familiar with structure, method, pointer and pointer receiver concepts."
+
+[[learning_links]]
+title = "Tour of Go"
+url = "https://go.dev/tour/welcome/1"
+
+[[learning_links]]
+title = "Go by Example"
+url = "https://gobyexample.com/"
+
+[[learning_links]]
+title = "Learn Go With Tests"
+url = "https://quii.gitbook.io/learn-go-with-tests/"
 
 [[questions]]
 text = """You can see a challenge code above.
