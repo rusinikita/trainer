@@ -29,6 +29,7 @@ func C() {
 	defer mu.RUnlock()
 }
 """
+learning_advise = "Read sync.RWMutex docs and play with this code"
 
 [[questions]]
 text = "Select program output"

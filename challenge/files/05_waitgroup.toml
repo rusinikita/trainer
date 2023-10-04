@@ -14,6 +14,7 @@ func main() {
 	fmt.Println("Done")
 }
 """
+learning_advise = "Read sync.WaitGroup docs and play with this code"
 
 [[questions]]
 text = "Select program output"

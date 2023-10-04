@@ -19,6 +19,7 @@ func main() {
 	fmt.Println(count)
 }
 """
+learning_advise = "Read about channels, channel closing and play with this code"
 
 [[questions]]
 text = "Select program output"

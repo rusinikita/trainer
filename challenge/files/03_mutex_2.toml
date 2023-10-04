@@ -24,6 +24,7 @@ func (m *Map) Len() int {
 	return len(m.m)
 }
 """
+learning_advise = "Read sync.Mutex docs, find map zero value and play with this code"
 
 [[questions]]
 text = "This structure is used in other packages. Find issues."

@@ -19,6 +19,7 @@ func main() {
 	}
 }
 """
+learning_advise = "Read about channels, buffered channels and play with this code"
 
 [[questions]]
 text = "Select program output"
