@@ -24,7 +24,10 @@ type model struct {
 	currentQuestion int
 
 	question questionModel
+	learn    learn
 }
+
+const copyErrprStatus = "Code isn't copied. Please install xsel, xclip, wl-clipboard or Termux:API."
 
 func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 	// normalize line endings
@@ -47,14 +50,11 @@ func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 	l.Styles.HelpStyle = l.Styles.HelpStyle.MarginBottom(1)
 	l.StatusMessageLifetime = 5 * time.Second
 
-	copyStatus := "Code is copied to clipboard"
-
+	var cmd tea.Cmd
 	err := clipboard.WriteAll(c.DefaultCodeSnippet)
 	if err != nil {
-		copyStatus = errorStyle.Render("Code isn't copied. Please install xsel, xclip, wl-clipboard or Termux:API.")
+		cmd = l.NewStatusMessage(errorStyle.Render(copyErrprStatus))
 	}
-
-	cmd := l.NewStatusMessage(copyStatus)
 
 	m := model{
 		b: newBindings(),
@@ -65,6 +65,7 @@ func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 		l:         l,
 		questions: c.Questions,
 		question:  newQuestionModel(c.Questions[0], len(c.Questions) == 1),
+		learn:     newLearn(c.LearningAdvise, c.LearningLinks),
 	}
 
 	return m.updateListSize(), cmd
@@ -91,15 +92,25 @@ func (m model) footerView() string {
 		fmt.Sprintf("Question %d/%d", m.currentQuestion+1, len(m.questions)),
 	)
 
+	learnSwitch := questionNumberStyle.Render("L - 👁  learn info")
+
 	line := lipgloss.JoinHorizontal(
 		lipgloss.Center,
 		number,
-		strings.Repeat("─", m.l.Width()-lipgloss.Width(number)),
+		strings.Repeat("─", m.l.Width()-lipgloss.Width(number)-lipgloss.Width(learnSwitch)),
+		learnSwitch,
 	)
+
+	var bottomView string
+	if m.learn.Showed() {
+		bottomView = m.learn.View(m.w.Width)
+	} else {
+		bottomView = m.question.View()
+	}
 
 	return lipgloss.JoinVertical(lipgloss.Left,
 		line,
-		m.question.View(),
+		bottomView,
 		m.helpView(),
 	)
 }
@@ -127,8 +138,12 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 		m.w = msg
 	}
 
-	m.l, cmd = m.l.Update(msg)
-	m.question = m.question.Update(msg, m.l.Index())
+	m.learn, cmd = m.learn.Update(msg)
+
+	if !m.learn.Showed() {
+		m.l, cmd = m.l.Update(msg)
+		m.question = m.question.Update(msg, m.l.Index())
+	}
 
 	return m.updateListSize(), cmd
 }
