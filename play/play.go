@@ -21,6 +21,7 @@ type model struct {
 	l list.Model
 	b keyBindings
 
+	challengeName   string
 	questions       []challenge.Question
 	currentQuestion int
 
@@ -43,6 +44,7 @@ func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 	l.KeyMap.NextPage = key.NewBinding(key.WithDisabled())
 	l.KeyMap.PrevPage = key.NewBinding(key.WithDisabled())
 	l.SetShowHelp(false)
+	l.SetShowPagination(false)
 	l.InfiniteScrolling = true
 	l.StatusMessageLifetime = 5 * time.Second
 
@@ -60,11 +62,12 @@ func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 			Width:  width,
 			Height: height,
 		},
-		l:         l,
-		questions: c.Questions,
-		question:  newQuestionModel(c.Questions[0], len(c.Questions) == 1),
-		learn:     newLearn(c.LearningAdvise, c.LearningLinks),
-		help:      helpModel,
+		l:             l,
+		challengeName: c.Name,
+		questions:     c.Questions,
+		question:      newQuestionModel(c.Questions[0], len(c.Questions) == 1),
+		learn:         newLearn(c.LearningAdvise, c.LearningLinks),
+		help:          helpModel,
 	}
 
 	return m.updateListSize(), cmd
@@ -107,7 +110,7 @@ func (m model) footerView() string {
 		bottomView = m.question.View()
 	}
 
-	return lipgloss.JoinVertical(lipgloss.Left,
+	return lipgloss.JoinVertical(lipgloss.Top,
 		line,
 		bottomView,
 		helpStyle.Render(m.help.View(m.b)),
@@ -147,6 +150,8 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 		m.question = m.question.Update(msg, m.l.Index())
 	}
 
+	m.l.Title = fmt.Sprintf("%s %d/%d", m.challengeName, m.l.Index(), len(m.l.Items()))
+
 	return m.updateListSize(), cmd
 }
 
@@ -163,7 +168,7 @@ func (m model) updateListSize() model {
 
 func (m model) View() string {
 	return lipgloss.JoinVertical(
-		lipgloss.Left,
+		lipgloss.Top,
 		listStyle.Render(m.l.View()),
 		m.footerView(),
 	)
