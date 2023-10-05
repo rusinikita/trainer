@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/atotto/clipboard"
+	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -25,6 +26,8 @@ type model struct {
 
 	question questionModel
 	learn    learn
+
+	help help.Model
 }
 
 const copyErrprStatus = "Code isn't copied. Please install xsel, xclip, wl-clipboard or Termux:API."
@@ -41,13 +44,6 @@ func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 	l.KeyMap.PrevPage = key.NewBinding(key.WithDisabled())
 	l.SetShowHelp(false)
 	l.InfiniteScrolling = true
-	l.AdditionalShortHelpKeys = func() []key.Binding {
-		return newBindings().ShortHelp()
-	}
-	l.AdditionalFullHelpKeys = func() []key.Binding {
-		return newBindings().FullHelp()[0]
-	}
-	l.Styles.HelpStyle = l.Styles.HelpStyle.MarginBottom(1)
 	l.StatusMessageLifetime = 5 * time.Second
 
 	var cmd tea.Cmd
@@ -55,6 +51,8 @@ func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 	if err != nil {
 		cmd = l.NewStatusMessage(errorStyle.Render(copyErrprStatus))
 	}
+
+	helpModel := help.New()
 
 	m := model{
 		b: newBindings(),
@@ -66,6 +64,7 @@ func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 		questions: c.Questions,
 		question:  newQuestionModel(c.Questions[0], len(c.Questions) == 1),
 		learn:     newLearn(c.LearningAdvise, c.LearningLinks),
+		help:      helpModel,
 	}
 
 	return m.updateListSize(), cmd
@@ -111,12 +110,8 @@ func (m model) footerView() string {
 	return lipgloss.JoinVertical(lipgloss.Left,
 		line,
 		bottomView,
-		m.helpView(),
+		helpStyle.Render(m.help.View(m.b)),
 	)
-}
-
-func (m model) helpView() string {
-	return m.l.Styles.HelpStyle.Render(m.l.Help.View(m.l))
 }
 
 func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
@@ -132,6 +127,11 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 					m.currentQuestion == len(m.questions)-1,
 				)
 			}
+
+		case key.Matches(msg, m.b.Help):
+			m.help.ShowAll = !m.help.ShowAll
+		case key.Matches(msg, m.b.Quit):
+			return m, tea.Quit
 		}
 
 	case tea.WindowSizeMsg:
@@ -139,6 +139,8 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 	}
 
 	m.learn, cmd = m.learn.Update(msg)
+	m.b.Learn.SetEnabled(!m.learn.Showed())
+	m.b.CloseLearn.SetEnabled(m.learn.Showed())
 
 	if !m.learn.Showed() {
 		m.l, cmd = m.l.Update(msg)

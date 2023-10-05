@@ -52,7 +52,7 @@ func (l learn) View(width int) string {
 		links[i] = style.Render(link.Title)
 	}
 
-	limit := width/3*2 - learningAdviseText.GetHorizontalFrameSize() - margin1.GetHorizontalFrameSize()
+	limit := width/3*2 - learningAdviseText.GetHorizontalFrameSize() - marginH1.GetHorizontalFrameSize()
 	advise := lipgloss.JoinVertical(
 		lipgloss.Left,
 		learningTitle.Render(copyTitle),
@@ -70,8 +70,8 @@ func (l learn) View(width int) string {
 	)
 	return lipgloss.JoinHorizontal(
 		lipgloss.Top,
-		margin1.Render(advise),
-		margin1.Render(strings.Repeat("│\n", max(lipgloss.Height(advise), lipgloss.Height(linksStr)))),
+		marginH1.Render(advise),
+		marginH1.Render(strings.Repeat("│\n", max(lipgloss.Height(advise), lipgloss.Height(linksStr)))),
 		linksStr,
 	)
 }

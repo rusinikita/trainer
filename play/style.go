@@ -33,7 +33,8 @@ var (
 
 	learningTitle        = lipgloss.NewStyle().Bold(true).Italic(true)
 	learningAdviseText   = lipgloss.NewStyle().Padding(1, 0, 1, 4)
-	margin1              = lipgloss.NewStyle().Margin(0, 1)
+	marginH1             = lipgloss.NewStyle().Margin(0, 1)
+	helpStyle            = lipgloss.NewStyle().Margin(1).MarginBottom(0)
 	learningLink         = lipgloss.NewStyle().BorderStyle(lipgloss.RoundedBorder())
 	learningLinkSelected = learningLink.Copy().
 				Foreground(lipgloss.Color("170")).
