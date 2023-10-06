@@ -31,7 +31,8 @@ type model struct {
 	help help.Model
 }
 
-const copyErrprStatus = "Code isn't copied. Please install xsel, xclip, wl-clipboard or Termux:API."
+const copyStatus = "Code is copied to clipboard"
+const copyErrStatus = "Code isn't copied. Please install xsel, xclip, wl-clipboard or Termux:API"
 
 func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 	// normalize line endings
@@ -48,11 +49,14 @@ func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 	l.InfiniteScrolling = true
 	l.StatusMessageLifetime = 5 * time.Second
 
-	var cmd tea.Cmd
+	copyStatus := copyStatus
+
 	err := clipboard.WriteAll(c.DefaultCodeSnippet)
 	if err != nil {
-		cmd = l.NewStatusMessage(errorStyle.Render(copyErrprStatus))
+		copyStatus = errorStyle.Render(copyErrStatus)
 	}
+
+	cmd := l.NewStatusMessage(copyStatus)
 
 	helpModel := help.New()
 
