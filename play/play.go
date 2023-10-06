@@ -31,8 +31,8 @@ type model struct {
 	help help.Model
 }
 
-const copyStatus = "Code is copied to clipboard"
-const copyErrStatus = "Code isn't copied. Please install xsel, xclip, wl-clipboard or Termux:API"
+const copyStatus = "Code has copied to clipboard"
+const copyErrStatus = "Code has not copied. Please install xsel, xclip, wl-clipboard or Termux:API"
 
 func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 	// normalize line endings
@@ -114,11 +114,17 @@ func (m model) footerView() string {
 		bottomView = m.question.View()
 	}
 
-	return lipgloss.JoinVertical(lipgloss.Top,
+	views := []string{
 		line,
 		bottomView,
 		helpStyle.Render(m.help.View(m.b)),
-	)
+	}
+
+	if m.help.ShowAll || m.learn.Showed() {
+		views = append(views, helpStyle.Render(copyAdvise))
+	}
+
+	return lipgloss.JoinVertical(lipgloss.Top, views...)
 }
 
 func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
@@ -149,8 +155,11 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 	m.b.Learn.SetEnabled(!m.learn.Showed())
 	m.b.CloseLearn.SetEnabled(m.learn.Showed())
 
-	if !m.learn.Showed() {
+	if cmd == nil {
 		m.l, cmd = m.l.Update(msg)
+	}
+
+	if !m.learn.Showed() {
 		m.question = m.question.Update(msg, m.l.Index())
 	}
 

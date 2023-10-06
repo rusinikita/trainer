@@ -35,9 +35,8 @@ func (l learn) Showed() bool {
 }
 
 const (
-	copyTitle      = "Code"
-	copyAdvise     = "The code have been copied to clipboard on challenge start. Paste and play in IDE."
-	challengeTitle = "Challenge"
+	copyAdvise     = "Code had copied to clipboard on challenge start. Paste and play in IDE."
+	challengeTitle = "Challenge advice"
 	linksTitle     = "Useful links: ⮐  to open"
 )
 
@@ -55,8 +54,6 @@ func (l learn) View(width int) string {
 	limit := width/3*2 - learningAdviseText.GetHorizontalFrameSize() - marginH1.GetHorizontalFrameSize()
 	advise := lipgloss.JoinVertical(
 		lipgloss.Left,
-		learningTitle.Render(copyTitle),
-		learningAdviseText.Render(wordwrap.String(copyAdvise, limit)),
 		learningTitle.Render(challengeTitle),
 		learningAdviseText.Render(wordwrap.String(l.advice, limit)),
 	)
@@ -68,12 +65,20 @@ func (l learn) View(width int) string {
 			links...,
 		),
 	)
-	return lipgloss.JoinHorizontal(
+
+	view := lipgloss.JoinHorizontal(
 		lipgloss.Top,
 		marginH1.Render(advise),
 		marginH1.Render(strings.Repeat("│\n", max(lipgloss.Height(advise), lipgloss.Height(linksStr)))),
 		linksStr,
 	)
+
+	view = lipgloss.JoinVertical(
+		lipgloss.Left,
+		view,
+	)
+
+	return view
 }
 
 func (l learn) Update(msg tea.Msg) (learn, tea.Cmd) {
