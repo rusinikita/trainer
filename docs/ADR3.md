@@ -24,7 +24,7 @@ Allow questions with custom code: what if make(chan int)/remove/move
 1. [ ] Return button
 2. [ ] Unknown input layout feedback
 3. [x] Code copy additional message
-4. [ ] Add contribution readme
+4. [x] Add contribution readme
 5. [x] Add challenge learning instructions component
 
 Problem: wrong list render on learning info open and close
