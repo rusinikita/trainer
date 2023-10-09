@@ -29,7 +29,15 @@ func C() {
 	defer mu.RUnlock()
 }
 """
-learning_advise = "Read sync.RWMutex docs and play with this code"
+learning_advise = "Read sync.RWMutex docs, it works different than Mutex"
+
+[[learning_links]]
+title = "Docs"
+url = "https://pkg.go.dev/sync#RWMutex"
+
+[[learning_links]]
+title = "Tour of Go"
+url = "https://go.dev/tour/concurrency/9"
 
 [[questions]]
 text = "Select program output"

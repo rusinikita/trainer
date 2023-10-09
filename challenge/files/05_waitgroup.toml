@@ -14,7 +14,19 @@ func main() {
 	fmt.Println("Done")
 }
 """
-learning_advise = "Read sync.WaitGroup docs and play with this code"
+learning_advise = "Read sync.WaitGroup docs"
+
+[[learning_links]]
+title = "Docs"
+url = "https://pkg.go.dev/sync#WaitGroup"
+
+[[learning_links]]
+title = "Go by Example"
+url = "https://gobyexample.com/waitgroups"
+
+[[learning_links]]
+title = "Learn Go With Tests"
+url = "https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/sync"
 
 [[questions]]
 text = "Select program output"

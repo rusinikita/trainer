@@ -19,7 +19,19 @@ func main() {
 	}
 }
 """
-learning_advise = "Read about channels, buffered channels and play with this code"
+learning_advise = "Learn about channels, buffered channels and channel close"
+
+[[learning_links]]
+title = "Tour of Go"
+url = "https://go.dev/tour/concurrency/2"
+
+[[learning_links]]
+title = "Go by Example"
+url = "https://gobyexample.com/channels"
+
+[[learning_links]]
+title = "Learn Go With Tests"
+url = "https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/concurrency"
 
 [[questions]]
 text = "Select program output"

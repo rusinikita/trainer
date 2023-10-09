@@ -15,7 +15,11 @@ func main() {
     fmt.Println(funCat)
 }
 """
-learning_advise = "You need to be familiar with structure, method, pointer and pointer receiver concepts."
+learning_advise = """
+If you can't find issue. That means you need to learn language basics. Use this links.
+
+Answer: changeColor is value receiver function. Use pointer receiver to modify structure value.
+"""
 
 [[learning_links]]
 title = "Tour of Go"
@@ -24,6 +28,10 @@ url = "https://go.dev/tour/welcome/1"
 [[learning_links]]
 title = "Go by Example"
 url = "https://gobyexample.com/"
+
+[[learning_links]]
+title = "Gopherlings"
+url = "https://github.com/soypat/gopherlings"
 
 [[learning_links]]
 title = "Learn Go With Tests"

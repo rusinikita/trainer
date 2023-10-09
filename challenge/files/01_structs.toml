@@ -23,7 +23,7 @@ func main() {
 learning_advise = """
 Go functions gets a copy of argument values. We use pointers to avoid value copying. But pointer is value too.
 
-Play with pointers. Read about value receiver vs pointer receiver.
+Play with pointers. Learn about value receiver vs pointer receiver.
 """
 
 [[learning_links]]
