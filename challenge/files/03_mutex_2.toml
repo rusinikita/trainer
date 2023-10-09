@@ -24,7 +24,26 @@ func (m *Map) Len() int {
 	return len(m.m)
 }
 """
-learning_advise = "Read sync.Mutex docs, find map zero value and play with this code"
+learning_advise = """
+1. Read sync.Mutex docs
+2. map zero value is nil
+"""
+
+[[learning_links]]
+title = "Docs"
+url = "https://pkg.go.dev/sync#Mutex"
+
+[[learning_links]]
+title = "Tour of Go"
+url = "https://go.dev/tour/concurrency/9"
+
+[[learning_links]]
+title = "Go by Example"
+url = "https://gobyexample.com/mutexes"
+
+[[learning_links]]
+title = "Learn Go With Tests"
+url = "https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/sync"
 
 [[questions]]
 text = "This structure is used in other packages. Find issues."

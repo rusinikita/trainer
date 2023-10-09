@@ -31,7 +31,23 @@ func main() {
 	fmt.Println(callResults...)
 }
 """
-learning_advise = "Read sync.WaitGroup, sync.Mutex docs and play with this code"
+learning_advise = "Read sync.WaitGroup, sync.Mutex docs"
+
+[[learning_links]]
+title = "Docs"
+url = "https://pkg.go.dev/sync#WaitGroup"
+
+[[learning_links]]
+title = "Go by Example: WaitGroup"
+url = "https://gobyexample.com/waitgroups"
+
+[[learning_links]]
+title = "Go by Example: Mutex"
+url = "https://gobyexample.com/mutexes"
+
+[[learning_links]]
+title = "Learn Go With Tests"
+url = "https://quii.gitbook.io/learn-go-with-tests/go-fundamentals/sync"
 
 [[questions]]
 text = "Select program output"
