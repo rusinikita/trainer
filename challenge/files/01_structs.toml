@@ -67,7 +67,7 @@ text = "Point at problems in code"
 type = "select_answers"
 answers = [
     { text = "Pointer func argument is unmodifiable" },
-    { text = "New structure istead of field change", code_line_ranges = [[4, 7]] },
+    { text = "New structure instead of field change", code_line_ranges = [[4, 7]] },
     { text = "Employee is immutable struct" },
     { text = "Not a pointer" },
     { text = "Pointer copy changed", code_line_ranges = [[4, 7]] },

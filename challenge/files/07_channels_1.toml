@@ -15,7 +15,7 @@ func main() {
 
 	c := time.Tick(1 * time.Second)
 	for range c {
-		fmt.Printf("#goroutines: %d\n", runtime.NumGoroutine())
+		fmt.Printf("#goroutines: %d\\n", runtime.NumGoroutine())
 	}
 }
 """
