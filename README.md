@@ -73,7 +73,7 @@ You should have Go installed
 ### 1. Install or update
 
 ```
-go install github.com/rusinikita/trainer@v0.5.0
+go install github.com/rusinikita/trainer@latest
 ```
 
 ### 2. Run
