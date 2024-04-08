@@ -46,7 +46,7 @@ It isn't about "program output". Many answers are bounded to code lines.
 - Find problems in code
 - Offer a fix
 
-### Learning hints
+### Learning tips
 
 Fix knowledge gaps fast. Jump to question topic in [Tour of Go](https://go.dev/tour), [gobyexample.com](https://gobyexample.com/) and ["Learn go with tests"](https://quii.gitbook.io/learn-go-with-tests/).
 
@@ -54,7 +54,7 @@ Fix knowledge gaps fast. Jump to question topic in [Tour of Go](https://go.dev/t
 
 ### And other
 
-- Challenge code already in you clipboard. You don't have to manually select and copy text.
+- Challenge code copies to clipboard automatically. You don't have to manually select and copy text.
 - Adaptive UI. Interface changes with terminal window size.
 
 ## Support a project community
@@ -88,4 +88,4 @@ Please, select tutorial as first challenge
 
 ## Thanks
 
-Some questions inspired by [this quiz](https://github.com/smallnest/go-concurrent-quiz)
+Some questions are inspired by [this quiz](https://github.com/smallnest/go-concurrent-quiz)
