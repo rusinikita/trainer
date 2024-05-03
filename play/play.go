@@ -28,13 +28,17 @@ type model struct {
 	question questionModel
 	learn    learn
 
+	backHandler BackHandler
+
 	help help.Model
 }
 
 const copyStatus = "Code has copied to clipboard"
 const copyErrStatus = "Code has not copied. Please install xsel, xclip, wl-clipboard or Termux:API"
 
-func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
+type BackHandler func(tea.WindowSizeMsg) (tea.Model, tea.Cmd)
+
+func New(c challenge.Challenge, width, height int, backHandler BackHandler) (tea.Model, tea.Cmd) {
 	// normalize line endings
 	codeLines := lines(c.DefaultCodeSnippet)
 
@@ -71,6 +75,7 @@ func New(c challenge.Challenge, width, height int) (tea.Model, tea.Cmd) {
 		questions:     c.Questions,
 		question:      newQuestionModel(c.Questions[0], len(c.Questions) == 1),
 		learn:         newLearn(c.LearningAdvise, c.LearningLinks),
+		backHandler:   backHandler,
 		help:          helpModel,
 	}
 
@@ -140,7 +145,8 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 					m.currentQuestion == len(m.questions)-1,
 				)
 			}
-
+		case key.Matches(msg, m.b.Back):
+			return m.backHandler(m.w)
 		case key.Matches(msg, m.b.Help):
 			m.help.ShowAll = !m.help.ShowAll
 		case key.Matches(msg, m.b.Quit):

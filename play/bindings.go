@@ -11,6 +11,7 @@ type keyBindings struct {
 	Right      key.Binding
 	Input      key.Binding
 	Next       key.Binding
+	Back       key.Binding
 	Help       key.Binding
 	Learn      key.Binding
 	CloseLearn key.Binding
@@ -25,6 +26,7 @@ func (k keyBindings) FullHelp() [][]key.Binding {
 	return [][]key.Binding{
 		{k.Left, k.Right, k.Up, k.Down, k.Input, k.Next},
 		{
+			k.Back,
 			copyKey(k.Help, "close bindings help"),
 			k.Learn,
 			k.CloseLearn,
@@ -42,6 +44,7 @@ func newBindings() keyBindings {
 		Right:      key.NewBinding(key.WithKeys("right", "d"), key.WithHelp("→/d", "right answer")),
 		Input:      key.NewBinding(key.WithKeys("enter", " ", "f"), key.WithHelp("⮐ / /f", "select answer/open link")),
 		Next:       key.NewBinding(key.WithKeys("n"), key.WithHelp("N", "next answer")),
+		Back:       key.NewBinding(key.WithKeys("backspace", "b"), key.WithHelp("⌫/b", "return to challenge list")),
 		Help:       key.NewBinding(key.WithKeys("h", "?"), key.WithHelp("h/?", "see key bindings")),
 		Learn:      learnB,
 		CloseLearn: copyDisabled(learnB, "close learn info"),
