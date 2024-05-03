@@ -66,6 +66,9 @@ func (c choose) Update(msg tea.Msg) (m tea.Model, cmd tea.Cmd) {
 				challenge.Challenge(c.list.SelectedItem().(item)),
 				c.list.Width()+listStyle.GetHorizontalFrameSize(),
 				c.list.Height()+listStyle.GetVerticalFrameSize(),
+				func(msg tea.WindowSizeMsg) (m tea.Model, cmd tea.Cmd) {
+					return c.Update(msg)
+				},
 			)
 		}
 	}
