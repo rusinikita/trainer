@@ -1,6 +1,11 @@
 package play
 
-import "github.com/charmbracelet/bubbles/key"
+import (
+	"unicode"
+
+	"github.com/charmbracelet/bubbles/key"
+	tea "github.com/charmbracelet/bubbletea"
+)
 
 type keyBindings struct {
 	short      key.Binding
@@ -51,6 +56,13 @@ func newBindings() keyBindings {
 		Quit:       key.NewBinding(key.WithKeys("q", "esc"), key.WithHelp("q/esc", "quit app")),
 		short:      key.NewBinding(key.WithKeys("c"), key.WithHelp("←/→/↑/↓/⮐ ", "select")),
 	}
+}
+
+func ValidateBindings(msg tea.KeyMsg) bool {
+	return msg.Type == tea.KeyRunes &&
+		len(msg.Runes) == 1 &&
+		unicode.IsLetter(msg.Runes[0]) &&
+		!unicode.Is(unicode.Latin, msg.Runes[0])
 }
 
 func copyKey(k key.Binding, desc string) key.Binding {
