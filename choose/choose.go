@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io"
 	"strings"
+	"time"
 
 	"github.com/charmbracelet/bubbles/list"
 	tea "github.com/charmbracelet/bubbletea"
@@ -22,6 +23,7 @@ func New() tea.Model {
 	listModel := list.New(nil, itemDelegate{}, 20, 14)
 	listModel.SetFilteringEnabled(false)
 	listModel.SetShowStatusBar(false)
+	listModel.StatusMessageLifetime = 5 * time.Second
 	listModel.Title = "Select challenge"
 
 	return choose{
@@ -61,6 +63,9 @@ func (c choose) Update(msg tea.Msg) (m tea.Model, cmd tea.Cmd) {
 		)
 
 	case tea.KeyMsg:
+		if play.ValidateBindings(msg) {
+			return c, c.list.NewStatusMessage(play.RenderLayoutErr(msg))
+		}
 		if msg.String() == "enter" {
 			return play.New(
 				challenge.Challenge(c.list.SelectedItem().(item)),

@@ -137,6 +137,8 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 
 	case tea.KeyMsg:
 		switch {
+		case ValidateBindings(msg):
+			return m, m.l.NewStatusMessage(RenderLayoutErr(msg))
 		case key.Matches(msg, m.b.Next):
 			if m.question.questionFullyAnswered() && (!m.question.isLast) {
 				m.currentQuestion++

@@ -1,6 +1,11 @@
 package play
 
-import "github.com/charmbracelet/lipgloss"
+import (
+	"fmt"
+
+	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
+)
 
 var (
 	questionNumberStyle = lipgloss.NewStyle().BorderStyle(lipgloss.RoundedBorder()).Padding(0, 1)
@@ -8,6 +13,10 @@ var (
 	answerStyle         = lipgloss.NewStyle().
 				PaddingLeft(1).PaddingRight(1).
 				BorderStyle(lipgloss.NormalBorder())
+	warningMessageStyle = lipgloss.NewStyle().
+				Foreground(lipgloss.Color("231")).
+				Background(lipgloss.Color("166")).
+				Padding(0, 1)
 	answerSelectedStyle = answerStyle.Copy().
 				Foreground(lipgloss.Color("170")).
 				BorderStyle(lipgloss.DoubleBorder()).
@@ -42,3 +51,12 @@ var (
 				Foreground(lipgloss.Color("170")).
 				BorderForeground(lipgloss.Color("170"))
 )
+
+func RenderLayoutErr(msg tea.KeyMsg) string {
+	return warningMessageStyle.Render(
+		fmt.Sprintf(
+			"'%s' have been pressed. Please, change keyboard layout to english.",
+			msg.String(),
+		),
+	)
+}
