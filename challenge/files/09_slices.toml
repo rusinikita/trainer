@@ -52,8 +52,8 @@ answers = [
 text = "Choose the slice capacity and len of variable x after each append"
 type = "select_answers"
 answers = [
-    { text = "len - 1, cap - 1" },
-    { text = "len - 1, cap - 2", code_line_ranges = [[2]] },
+    { text = "len - 1, cap - 1", code_line_ranges = [[2]]  },
+    { text = "len - 1, cap - 2"},
     { text = "len - 2, cap - 2", code_line_ranges = [[3]] },
     { text = "len - 3, cap - 4", code_line_ranges = [[4]] },
     { text = "len - 3, cap - 8" },
@@ -63,19 +63,21 @@ answers = [
 text = "What causes unexpected output?"
 type = "select_answers"
 answers = [
-    { text = "Slices are immutable in Go, leading to unexpected results when modified"},
-    { text = "The fmt.Println function incorrectly interprets slice pointers"},
+    { text = "Slices are immutable in Go, leading to unexpected results when modified" },
+    { text = "The fmt.Println function incorrectly interprets slice pointers" },
     { text = "Index 3 was overwritten", code_line_ranges = [[7]] },
-    { text = "Compiler optimizations alter the sequence of append operations"},
+    { text = "Compiler optimizations alter the sequence of append operations" },
 ]
 
 [[questions]]
-text = "What modification will produce the expected output [0 1 2 3 0 1 2 4]?"
+text = "What modifications will produce the expected output [0 1 2 3 0 1 2 4]?"
 type = "select_answers"
 answers = [
-    { text = "Use y3 instead of x", code_line_ranges = [[7]] },
+    { text = "Use y3 instead of x" },
     { text = "Replace with 'x := make([]int, 0, 3)'", code_line_ranges = [[1]] },
-    { text = "Replace with 'y3 = append(copy(x), 3)'" },
-    { text = "Replace with fmt.Printf" },
+    { text = "Replace 'x' with 'copy(x)'" },
+    { text = "Replace 'x' with 'slices.Clone(x)'", code_line_ranges = [[6, 7]] },
+    { text = "Use fmt.Printf" },
+    { text = "Insert 'copy(x, x)' above", code_line_ranges = [[7]] },
 ]
 
