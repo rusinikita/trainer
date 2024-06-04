@@ -1,0 +1,95 @@
+name = "Error interface"
+category = "easy"
+default_code_snippet = """
+type myErr struct {
+	msg string
+}
+
+func (e *myErr) Error() string {
+	return e.msg
+}
+
+func main() {
+	result := something()
+	if result != nil {
+		log.Fatalln(result.Error())
+	}
+
+	log.Println("Good")
+}
+
+func something() error {
+	var err *myErr
+
+	return err
+}
+"""
+learning_advise = """
+Type *myErr has method Error. It implements the 'error' interface.
+
+'(*myErr)(nil)' is a valid error value because method Error can be called on variable err, even if it's nil.
+
+'result' is not nil, because it is not empty. It contains a reference to valid (*myErr)(nil).
+Otherwise, you will not be able to use its methods. But you may want to use it.
+
+Play with interfaces. Learn about value receiver vs pointer receiver and interface internal structure.
+"""
+
+[[learning_links]]
+title = "Tour of Go"
+url = "https://go.dev/tour/methods/11"
+
+[[learning_links]]
+title = "Interface internals"
+url = "https://github.com/teh-cmc/go-internals/blob/master/chapter2_interfaces/README.md#overview-of-the-datastructures"
+
+[[learning_links]]
+title = "Inrerfaces explained"
+url = "https://www.alexedwards.net/blog/interfaces-explained"
+
+[[questions]]
+text = "Does type '*myErr' implement the error interface?"
+type = "select_answers"
+answers = [
+    { text = "No" },
+    { text = "Yes", code_line_ranges = [] }
+]
+
+[[questions]]
+text = "Does type 'myErr' implement the error interface?"
+type = "select_answers"
+answers = [
+    { text = "No", code_line_ranges = [] },
+    { text = "Yes" }
+]
+
+[[questions]]
+text = "What line will the program finish executing on and why?"
+type = "select_answers"
+answers = [
+    { text = "End of main" },
+    { text = "Fatalln: exit code 1" },
+    { text = "Nil pointer dereference", code_line_ranges = [[5]] },
+    { text = "It will not compile" }
+]
+
+[[questions]]
+text = "What does 'something()' return?"
+type = "select_answers"
+answers = [
+    { text = "nil error" },
+    { text = "nil *myErr", code_line_ranges = [] },
+    { text = "pointer to myErr zero value" },
+    { text = "not nil error", code_line_ranges = [] }
+]
+
+[[questions]]
+text = "Select possible methods to fix panic"
+type = "select_answers"
+answers = [
+    { text = "Impossible to fix" },
+    { text = "return nil", code_line_ranges = [[17,21]] },
+    { text = "var err error", code_line_ranges = [[17,21]] },
+    { text = "do not call '.Error()'", code_line_ranges = [[11]] },
+    { text = "'if e != nil' check", code_line_ranges = [[4,7]] }
+]
