@@ -25,6 +25,7 @@ func New() tea.Model {
 	listModel.SetShowStatusBar(false)
 	listModel.StatusMessageLifetime = 5 * time.Second
 	listModel.Title = "Select challenge"
+	listModel.InfiniteScrolling = true
 
 	return choose{
 		list: listModel,
