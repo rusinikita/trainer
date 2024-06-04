@@ -95,7 +95,7 @@ func (q questionModel) questionStatusLine() string {
 	if q.questionFullyAnswered() && q.isLast {
 		return questionEndStyle.Render("🎉 done! Press 'q' to exit or 'b' to back to challenge list")
 	} else if q.questionFullyAnswered() {
-		return questionEndStyle.Render("All answers has found, press 'N' to show next question")
+		return questionEndStyle.Render("All answers has found, press 'n' or ']' to show next question")
 	}
 
 	rightAnswers, hasLines := q.RightAnswers()

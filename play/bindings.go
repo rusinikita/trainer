@@ -48,7 +48,7 @@ func newBindings() keyBindings {
 		Down:       key.NewBinding(key.WithKeys("down", "s"), key.WithHelp("↓/s", "move line/link down")),
 		Right:      key.NewBinding(key.WithKeys("right", "d"), key.WithHelp("→/d", "right answer")),
 		Input:      key.NewBinding(key.WithKeys("enter", " ", "f"), key.WithHelp("⮐ / /f", "select answer/open link")),
-		Next:       key.NewBinding(key.WithKeys("n"), key.WithHelp("N", "next answer")),
+		Next:       key.NewBinding(key.WithKeys("n", "]"), key.WithHelp("n/]", "next answer")),
 		Back:       key.NewBinding(key.WithKeys("backspace", "b"), key.WithHelp("⌫/b", "return to challenge list")),
 		Help:       key.NewBinding(key.WithKeys("h", "?"), key.WithHelp("h/?", "see key bindings")),
 		Learn:      learnB,
