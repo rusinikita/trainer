@@ -29,9 +29,9 @@ and [interviewer simulation](https://github.com/f/awesome-chatgpt-prompts#act-as
 
 ## Features
 
-### 8 real interview challenges
+### Real interview challenges
 
-Tutorial and 8 reworked challenges from my experience as an interviewer and candidate.
+Tutorial and 10+ reworked challenges from my experience as an interviewer and candidate.
 
 ![](images/list.png)
 
