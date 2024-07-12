@@ -30,6 +30,14 @@ func newLearn(advice string, links []challenge.Link) learn {
 	}
 }
 
+func (l learn) Toggle() learn {
+	l.showed = !l.showed
+	if l.showed {
+		l.selectedLink = 0
+	}
+	return l
+}
+
 func (l learn) Showed() bool {
 	return l.showed
 }
@@ -81,7 +89,9 @@ func (l learn) View(width int) string {
 	return view
 }
 
-func (l learn) Update(msg tea.Msg) (learn, tea.Cmd) {
+func (l learn) Update(msg tea.Msg) (learn, tea.Cmd, bool) {
+	handled := false
+
 	switch msg := msg.(type) {
 
 	case tea.KeyMsg:
@@ -90,28 +100,22 @@ func (l learn) Update(msg tea.Msg) (learn, tea.Cmd) {
 			if l.selectedLink > 0 {
 				l.selectedLink--
 			}
+			handled = true
 
 		case key.Matches(msg, l.b.Down):
 			if l.selectedLink < len(l.links)-1 {
 				l.selectedLink++
 			}
-
-		case key.Matches(msg, l.b.Learn):
-			l.showed = !l.showed
-			l.selectedLink = 0
+			handled = true
 
 		case key.Matches(msg, l.b.Input):
-			if !l.Showed() {
-				return l, nil
-			}
-
 			return l, func() tea.Msg {
 				_ = browser.OpenURL(l.links[l.selectedLink].URL)
 				return nil
-			}
+			}, true
 
 		}
 	}
 
-	return l, nil
+	return l, nil, handled
 }

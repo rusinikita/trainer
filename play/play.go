@@ -133,6 +133,8 @@ func (m model) footerView() string {
 }
 
 func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
+	var handled bool
+
 	switch msg := msg.(type) {
 
 	case tea.KeyMsg:
@@ -149,6 +151,8 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 			}
 		case key.Matches(msg, m.b.Back):
 			return m.backHandler(m.w)
+		case key.Matches(msg, m.b.Learn):
+			m.learn = m.learn.Toggle()
 		case key.Matches(msg, m.b.Help):
 			m.help.ShowAll = !m.help.ShowAll
 		case key.Matches(msg, m.b.Quit):
@@ -159,15 +163,12 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 		m.w = msg
 	}
 
-	m.learn, cmd = m.learn.Update(msg)
-	m.b.Learn.SetEnabled(!m.learn.Showed())
-	m.b.CloseLearn.SetEnabled(m.learn.Showed())
-
-	if cmd == nil {
-		m.l, cmd = m.l.Update(msg)
+	if m.learn.Showed() {
+		m.learn, cmd, handled = m.learn.Update(msg)
 	}
 
-	if !m.learn.Showed() {
+	if !handled {
+		m.l, cmd = m.l.Update(msg)
 		m.question = m.question.Update(msg, m.l.Index())
 	}
 
