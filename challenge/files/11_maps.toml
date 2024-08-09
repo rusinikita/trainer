@@ -1,0 +1,206 @@
+name = "Maps"
+category = "easy"
+default_code_snippet = """
+func main() {
+	var m map[int]bool
+
+	val, ok := m[1]
+	fmt.Println(val, " ", ok)
+
+	for i := 0; i < 5; i++ {
+		m[i] = i%2 == 0
+	}
+
+	fmt.Println(m)
+}
+"""
+learning_advise = """
+Learn how to work with map and how it's implemented internally.
+"""
+
+[[learning_links]]
+title = "Go blog about maps"
+url = "https://go.dev/blog/maps"
+
+[[learning_links]]
+title = "Source code"
+url = "https://go.dev/src/runtime/map.go"
+
+[[learning_links]]
+title = "Go by examples: Maps"
+url = "https://gobyexample.com/maps"
+
+[[learning_links]]
+title = "Some insights on Maps in Golang"
+url = "https://hackernoon.com/some-insights-on-maps-in-golang-rm5v3ywh"
+
+[[questions]]
+text = """What will be the output of this program?
+"""
+type = "select_answers"
+answers = [
+    { text = "not compiles" },
+    { text = "panic" },
+    { text = "false false" },
+    { text = "false false and panic", code_line_ranges = [] },
+]
+
+[[questions]]
+text = """What will be the output of this program?
+"""
+type = "select_answers"
+new_code_snippet = """
+func main() {
+	m := make(map[int]bool)
+
+	for i := 0; i < 5; i++ {
+		m[i] = i%2 == 0
+	}
+
+	var toPrint []int
+	for key := range m {
+		toPrint = append(toPrint, key)
+	}
+
+	fmt.Println(toPrint)
+}
+"""
+answers = [
+    { text = "[0 1 2 3 4]" },
+    { text = "different between attempts", code_line_ranges = [] },
+    { text = "[3 4 0 1 2]"},
+    { text = "[4 3 2 1 0]"},
+]
+
+[[questions]]
+text = """Explain the output of the program
+"""
+type = "select_answers"
+answers = [
+    { text = "The iteration order of the map keys is randomized at every range call", code_line_ranges = [] },
+    { text = "The iteration order of the map keys is randomized at program start" },
+    { text = "The keys in the map are sorted when iterating" },
+]
+
+[[questions]]
+text = """What will be the output of this program?
+"""
+type = "select_answers"
+new_code_snippet = """
+func main() {
+	m := make(map[int]bool)
+	fmt.Println(m)
+
+	for i := 0; i < 5; i++ {
+		m[i] = i%2 == 0
+	}
+
+	fmt.Println(m)
+}
+"""
+answers = [
+    { text = "map[]\nmap[0:true 1:false 2:true 3:false 4:true]", code_line_ranges = [] },
+    { text = "[]\nmap[0:true 1:false 2:true 3:false 4:true]" },
+    { text = "map[]\n{\"0\":true, \"1\":false, \"2\":true, \"3\":false, \"4\":true]" },
+    { text = "map[]\nmap[2:true 1:false 3:false 4:true 0:true]" },
+]
+
+[[questions]]
+text = """Explain the output of the program
+"""
+type = "select_answers"
+answers = [
+    { text = "Println can customise seed for map iteration" },
+    { text = "Println goes through the map inside, sorts it and only then outputs it", code_line_ranges = [] },
+]
+
+[[questions]]
+text = """Why is the iteration order of keys in a Go map randomized?
+"""
+type = "select_answers"
+answers = [
+    { text = "To improve the performance of map operations by avoiding cache misses" },
+    { text = "To ensure fairness in concurrent map access in multi-threaded programs" },
+    { text = "To prevent programs from relying on a specific iteration order, which could lead to subtle bugs", code_line_ranges = [] },
+    { text = "To enhance security by making it harder to predict the order of key-value pairs" },
+]
+
+[[questions]]
+text = """In Go, maps use buckets to store key-value pairs. 
+Which of the following statements best describes how these buckets work?
+
+"""
+type = "select_answers"
+answers = [
+    { text = "Each bucket can store exactly one key-value pair" },
+    { text = "Buckets use a linked list to store multiple key-value pairs that hash to the same bucket" },
+    { text = "Buckets store key-value pairs in an array and resolve collisions using open addressing" },
+    { text = "Buckets store key-value pairs in an array and use a linked list to handle collisions", code_line_ranges = [] },
+]
+
+[[questions]]
+text = """The load factor of a map is a critical concept in understanding its efficiency. 
+Which of the following best describes the load factor in the context of Go maps?
+
+"""
+type = "select_answers"
+answers = [
+    { text = "The ratio of the number of entries to the total capacity of the map" },
+    { text = "The ratio of the number of used buckets to the total number of buckets" },
+    { text = "The average number of key-value pairs stored in each bucket", code_line_ranges = [] },
+    { text = "The ratio of the number of overflow buckets to the total number of buckets" },
+]
+
+[[questions]]
+text = """What happens when the load factor of a map exceeds 6.5?
+
+"""
+type = "select_answers"
+answers = [
+    { text = "The map allocates a new array with double the capacity and rehashes all keys" },
+    { text = "The map remains the same size but uses a more sophisticated hash function" },
+    { text = "The map splits existing buckets and rehashes only a portion of the keys", code_line_ranges = [] },
+    { text = "The map creates a second, independent map and balances the keys between the two maps" },
+]
+
+[[questions]]
+text = """How does the Go runtime handle memory management and garbage collection for maps, particularly regarding unused keys?
+
+"""
+type = "select_answers"
+answers = [
+    { text = "The Go runtime immediately reclaims memory for a map entry when a key is deleted" },
+    { text = "The Go runtime marks deleted keys as unused, and the memory is reclaimed during the next garbage collection cycle", code_line_ranges = [] },
+    { text = "The Go runtime never reclaims memory for deleted keys; the memory remains allocated until the entire map is garbage collected" },
+    { text = "The Go runtime reclaims memory for deleted keys only when the map is resized" },
+]
+
+[[questions]]
+text = """Which of the following statements about the hash function used in Go maps is true?
+
+"""
+type = "select_answers"
+answers = [
+    { text = "Go uses a simple modulo operation to compute hash values for keys" },
+    { text = "The hash function is deterministic and always produces the same hash for the same input across different runs" },
+    { text = """The hash function includes a per-map random seed to protect against certain types of attack when malicious actor 
+    can flood hashmap with collisions""", code_line_ranges = [] },
+    { text = "Go maps do not use a hash function; they rely on direct indexing" },
+]
+
+[[questions]]
+text = """What happens when we need to add a new value to a Go map, but the target bucket is already full?
+
+"""
+type = "select_answers"
+answers = [
+    { text = "The map immediately resizes and rehashes all the keys to distribute them across new buckets" },
+    { text = "An overflow bucket is created, and the new key-value pair is added to this overflow bucket", code_line_ranges = [] },
+    { text = "The existing key-value pairs in the bucket are rehashed within the same bucket to make room for the new value" },
+    { text = "The new key-value pair is discarded, and the insertion operation fails" },
+]
+
+
+
+
+
