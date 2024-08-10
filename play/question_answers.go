@@ -81,7 +81,7 @@ func (q questionModel) View() string {
 			}
 		}
 
-		answers = append(answers, style.Render(wordwrap.String(strings.TrimSpace(answer.Text), 15)))
+		answers = append(answers, style.Render(wordwrap.String(strings.TrimSpace(answer.Text), 20)))
 	}
 
 	return lipgloss.JoinVertical(lipgloss.Left,

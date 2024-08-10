@@ -1,0 +1,106 @@
+name = "Context"
+category = "easy"
+default_code_snippet = """
+var (
+	errTimeout error = errors.New("Timeout")
+)
+
+func main() {
+	cancelCtx, cancel := context.WithCancel(context.Background())
+	timeoutCtx, _ := context.WithTimeoutCause(context.Background(), 2*time.Second, errTimeout)
+	deadlineCtx, _ := context.WithDeadline(context.Background(), time.Now().Add(2*time.Second))
+	valueCtx := context.WithValue(cancelCtx, "Key", "Value")
+	time.AfterFunc(2*time.Second, func() {
+		cancel()
+	})
+
+	go func() {
+		<-timeoutCtx.Done()
+		fmt.Println("Timeout context")
+		fmt.Printf("%v\\n", context.Cause(timeoutCtx))
+		fmt.Printf("%v\\n", timeoutCtx.Err())
+	}()
+
+	go func() {
+		<-deadlineCtx.Done()
+		fmt.Println("Deadline context")
+	}()
+
+	go func() {
+		<-valueCtx.Done()
+		fmt.Println("Child context")
+		fmt.Println(valueCtx.Value("Key"))
+	}()
+
+	time.Sleep(3 * time.Second)
+}
+"""
+learning_advise = """
+Read about context types, context hierarchy, and the difference between context.Cause and .Err().
+"""
+
+[[learning_links]]
+title = "Go package 'context'"
+url = "https://pkg.go.dev/context"
+
+[[learning_links]]
+title = "Go by Example: Context"
+url = "https://gobyexample.com/context"
+
+[[learning_links]]
+title = "How To Use Contexts in Go"
+url = "https://www.digitalocean.com/community/tutorials/how-to-use-contexts-in-go"
+
+[[questions]]
+text = """Which context will be cancelled first?"""
+type = "select_answers"
+answers = [
+    { text = """Timeout""" },
+    { text = """Deadline""" },
+    { text = """Value""" },
+    { text = """They will be cancelled almost at the same time""", code_line_ranges = [] },
+]
+
+[[questions]]
+text = """What will be the output of the code on lines 16-17?"""
+type = "select_answers"
+answers = [
+    { text = """Timeout\nTimeout""" },
+    { text = """context deadline exceeded\ncontext deadline exceeded""" },
+    { text = """Timeout\ncontext deadline exceeded""", code_line_ranges = [] },
+    { text = """context deadline exceeded\nTimeout""" },
+]
+
+[[questions]]
+text = """What will be the output of this program?"""
+type = "select_answers"
+new_code_snippet = """
+func main() {
+	start := time.Now()
+
+	ctx1, _ := context.WithTimeout(context.Background(), 3*time.Second)
+	ctx2, _ := context.WithTimeout(ctx1, 2*time.Second)
+	ctx3, _ := context.WithTimeout(ctx2, 5*time.Second)
+
+	<-ctx3.Done()
+
+	fmt.Println(time.Since(start).Round(time.Second).Seconds())
+}
+"""
+answers = [
+    { text = """1""" },
+    { text = """2""", code_line_ranges = [] },
+    { text = """3""" },
+    { text = """5""" },
+]
+
+[[questions]]
+text = """What might happen if you forget to call cancel() immediately after completing a task for a context 
+obtained from context.WithTimeout() or context.WithDeadline()?"""
+type = "select_answers"
+answers = [
+    { text = """The resources will be released immediately and automatically""" },
+    { text = """Resources associated with the context will leak until the timeout occurs""", code_line_ranges = []  },
+    { text = """The program will crash with a panic""" },
+    { text = """The timeout will reset and extend indefinitely""" },
+]
