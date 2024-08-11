@@ -31,9 +31,10 @@ type Challenge struct {
 }
 
 type Question struct {
-	Text    string       `toml:"text" validate:"required"`
-	Type    QuestionType `toml:"type" validate:"required,oneof=select_answers code_writing"`
-	Answers []Answer     `toml:"answers" validate:"required,dive"`
+	Text           string       `toml:"text" validate:"required"`
+	Type           QuestionType `toml:"type" validate:"required,oneof=select_answers code_writing"`
+	Answers        []Answer     `toml:"answers" validate:"required,dive"`
+	NewCodeSnippet string       `toml:"new_code_snippet"`
 }
 
 func (q Question) RightAnswers() (count int, hasLines bool) {

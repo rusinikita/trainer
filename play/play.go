@@ -142,10 +142,17 @@ func (m model) Update(msg tea.Msg) (r tea.Model, cmd tea.Cmd) {
 		case key.Matches(msg, m.b.Next):
 			if m.question.questionFullyAnswered() && (!m.question.isLast) {
 				m.currentQuestion++
+
+				question := m.questions[m.currentQuestion]
+
 				m.question = newQuestionModel(
-					m.questions[m.currentQuestion],
+					question,
 					m.currentQuestion == len(m.questions)-1,
 				)
+
+				if question.NewCodeSnippet != "" {
+					m.l.SetItems(lines(question.NewCodeSnippet))
+				}
 			}
 		case key.Matches(msg, m.b.Back):
 			return m.backHandler(m.w)
