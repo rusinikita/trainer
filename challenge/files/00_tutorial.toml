@@ -87,7 +87,7 @@ answers = [
 ]
 
 [[questions]]
-text = """How to fix programm to print 'pink' (without {})?
+text = """How to fix program to print 'pink' (without {})?
 There is a 2 right answers. Each answer has its related line (not the same)."""
 type = "select_answers"
 answers = [
